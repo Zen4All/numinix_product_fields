@@ -1,0 +1,134 @@
+To display the length, width, and height, as well a convert your weights, add the following code to includes/modules/pages/product_info/header_php.php:
+
+######BEGIN######
+
+  // NUMINIX PRODUCT FIELDS EDIT
+  // build query
+  $products_query = "SELECT p.products_weight, p.products_length, p.products_width, p.products_height, p.products_diameter, p.products_dim_type, p.products_weight_type, p.products_actual_weight, pd.products_description2 
+                     FROM " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_DESCRIPTION . " pd
+                     WHERE p.products_id = " . (int)$_GET['products_id'] . " 
+                     AND p.products_id = pd.products_id 
+                     AND pd.language_id = '" . (int)$_SESSION['languages_id'] . "' LIMIT 1";  // execute query
+  $products = $db->Execute($products_query);
+  // store variables
+  $products_length = $products->fields['products_length'];
+  $products_width = $products->fields['products_width'];
+  $products_height = $products->fields['products_height'];
+  $products_weight = $products->fields['products_weight'];
+  $products_actual_weight = $products->fields['products_actual_weight'];
+  $products_dim_type = strtolower($products->fields['products_dim_type']);
+  $products_weight_type = strtolower($products->fields['products_weight_type']);
+  $products_description2 = $products->fields['products_description2'];
+  // create conversions
+  if (SHOW_PRODUCT_INFO_CONVERSIONS == 1) {
+    if ($products_weight_type == 'kgs') {
+      $products_weight2 = round($products_weight * 2.20462262, 2);
+      $products_actual_weight2 = round($products_actual_weight * 2.20462262, 2);
+      $products_weight_type2 = 'lbs';
+    } else {
+      $products_weight2 = round($products_weight * 0.45359237, 2);
+      $products_actual_weight2 = round($products_actual_weight * 0.45359237, 2);
+      $products_weight_type2 = 'kgs';
+    }
+    if ($products_dim_type == 'cm') {
+      $products_dim_type2 = 'in';
+      $conversion = 0.393700787;
+    } else {
+      $products_dim_type2 = 'cm';
+      $conversion = 2.54;
+    }
+    if (SHOW_PRODUCT_INFO_SMALLER_UNITS == 1) { 
+      if ($products_weight_type == 'kgs') {
+        $products_weight_type = 'g';
+        $products_weight_type2 = 'oz';
+        $products_weight = $products_weight * 1000;
+        $products_weight2 = $products_weight2 * 16;
+        $products_actual_weight = $products_actual_weight * 1000;
+        $products_actual_weight2 = $products_actual_weight2 * 16;
+      } else {
+        $products_weight_type = 'oz';
+        $products_weight_type2 = 'g';
+        $products_weight = $products_weight * 0.0625;
+        $products_weight2 = $products_weight2 * 0.001;
+        $products_actual_weight = $products_actual_weight * 0.0625;
+        $products_actual_weight2 = $products_actual_weight2 * 0.001;
+      }
+    } 
+    $products_weight_display = TEXT_PRODUCT_WEIGHT . $products_weight . $products_weight_type . '/' . $products_weight2 . $products_weight_type2;
+    $products_actual_weight_display = TEXT_PRODUCTS_ACTUAL_WEIGHT . $products_actual_weight . $products_weight_type . '/' . $products_actual_weight2 . $products_weight_type2;
+    $products_dim_display = TEXT_PRODUCT_DIMENSIONS . ($products_length > 0 ? TEXT_PRODUCTS_LENGTH . $products_length . $products_dim_type . ' (' . round($products_length * $conversion, 1) . $products_dim_type2 . ') ' : '') . ($products_width > 0 ? TEXT_PRODUCTS_WIDTH . $products_width . $products_dim_type . ' (' . round($products_width * $conversion, 1) . $products_dim_type2 . ') ' : '') . ($products_height > 0 ? TEXT_PRODUCTS_HEIGHT . $products_height . $products_dim_type . ' (' . round($products_height * $conversion, 1) . $products_dim_type2 . ')' : '');
+  } else {
+    
+    if (SHOW_PRODUCT_INFO_SMALLER_UNITS == 1) { 
+      if ($products_weight_type = 'kgs') {
+        $products_weight_type = 'g';
+        $products_weight = $products_weight * 1000;
+      } else {
+        $products_weight_type = 'oz';
+        $products_weight = $products_weight * 0.0625;
+      }
+    } 
+    $products_weight_display = TEXT_PRODUCT_WEIGHT .  $products_weight . $products_weight_type;
+    $products_actual_weight_display = TEXT_PRODUCTS_ACTUAL_WEIGHT .  $products_actual_weight . $products_weight_type;
+    $products_dim_display = TEXT_PRODUCT_DIMENSIONS . ($products_length > 0 ? TEXT_PRODUCTS_LENGTH . $products_length . $products_dim_type : '') . ' x ' . ($products_width > 0 ? TEXT_PRODUCTS_WIDTH . $products_width . $products_dim_type : '') . ' x ' . ($products_height > 0 ? TEXT_PRODUCTS_HEIGHT . $products_height . $products_dim_type : ''); 
+  }
+  // on/off status
+  $flag_show_product_info_dimensions = 0;
+  if (SHOW_PRODUCT_INFO_DIMENSIONS == 1) $flag_show_product_info_dimensions = 1;
+  if (SHOW_PRODUCT_INFO_ACTUAL_WEIGHT == 1) $flag_show_product_info_actual_weight = 1;
+  //END NUMINIX PRODUCT FIELDS
+
+######END######  
+
+Then, open includes/templates/YOUR_TEMPLATE/templates/tpl_product_info_display.php:
+
+Find:
+
+  <?php if ( (($flag_show_product_info_model == 1 and $products_model != '') or ($flag_show_product_info_weight == 1 and $products_weight !=0) or ($flag_show_product_info_quantity == 1) or ($flag_show_product_info_manufacturer == 1 and !empty($manufacturers_name))) ) { ?> 
+  
+Replace with:
+
+#####BEGIN####
+  
+  <?php if ( (($flag_show_product_info_model == 1 and $products_model != '') or ($flag_show_product_info_weight == 1 and $products_weight !=0) or ($flag_show_product_info_quantity == 1) or ($flag_show_product_info_dimensions == 1) or ($flag_show_product_info_manufacturer == 1 and !empty($manufacturers_name))) ) { ?> 
+
+######END#####
+
+Find: 
+  
+  <?php echo (($flag_show_product_info_model == 1 and $products_model !='') ? '<li>' . TEXT_PRODUCT_MODEL . $products_model . '</li>' : '') . "\n"; ?>
+  <?php echo (($flag_show_product_info_weight == 1 and $products_weight !=0) ? '<li>' . TEXT_PRODUCT_WEIGHT .  $products_weight . TEXT_PRODUCT_WEIGHT_UNIT . '</li>'  : '') . "\n"; ?>
+  <?php echo (($flag_show_product_info_quantity == 1) ? '<li>' . $products_quantity . TEXT_PRODUCT_QUANTITY . '</li>'  : '') . "\n"; ?>
+  <?php echo (($flag_show_product_info_manufacturer == 1 and !empty($manufacturers_name)) ? '<li>' . TEXT_PRODUCT_MANUFACTURER . $manufacturers_name . '</li>' : '') . "\n"; ?> 
+
+Add before, within, or after:
+
+#####BEGIN####
+ 
+  <?php echo (($flag_show_product_info_dimensions == 1 && $products_dim_type != '') ? '<li>' . $products_dim_display . '</li>'  : '') . "\n"; ?> 
+  <?php echo (($flag_show_product_info_actual_weight == 1 and $products_actual_weight !=0) ? '<li>' . $products_actual_weight_display . '</li>'  : '') . "\n"; ?>
+  
+######END#####
+  
+Find:
+
+  <?php echo (($flag_show_product_info_weight == 1 and $products_weight !=0) ? '<li>' . TEXT_PRODUCT_WEIGHT .  $products_weight . TEXT_PRODUCT_WEIGHT_UNIT . '</li>'  : '') . "\n"; ?>
+  
+Replace with:
+ 
+#####BEGIN####
+  
+  <?php echo (($flag_show_product_info_weight == 1 and $products_weight !=0) ? '<li>' . $products_weight_display . '</li>'  : '') . "\n"; ?>
+  
+######END#####
+
+Add anywhere in the template file:
+
+#####BEGIN####
+<!-- bof Product description 2 -->
+<?php if ($products_description2 != '') { ?>
+<div id="productDescription2" class="productGeneral biggerText"><?php echo stripslashes($products_description2); ?></div>
+<br class="clearBoth" />
+<?php } ?>
+<!-- eof Product description 2 -->
+######END#####
