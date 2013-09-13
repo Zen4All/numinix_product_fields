@@ -146,6 +146,13 @@ if ($_POST['image_delete'] == 1) {
         zen_db_perform(TABLE_PRODUCTS_DESCRIPTION, $sql_data_array, 'update', "products_id = '" . (int)$products_id . "' and language_id = '" . (int)$language_id . "'");
       }
     }
+    
+    //NPF start
+    $dirList = dirList(NPF_INCLUDES_CUSTOM_EXECUTE_FOLDER);
+    foreach($dirList as $file) {
+      include(NPF_INCLUDES_CUSTOM_EXECUTE_FOLDER . $file);
+    }
+    // END NPF
 
     // add meta tags
     $languages = zen_get_languages();

@@ -27,6 +27,7 @@
   define('NPF_INCLUDES_TEMPLATES_FOLDER', NPF_INCLUDES_FOLDER . 'npf_templates/');
   define('NPF_INCLUDES_PROCESSING_FOLDER', NPF_INCLUDES_FOLDER . 'npf_process/');
   define('NPF_INCLUDES_SQL_ARRAY_FOLDER', NPF_INCLUDES_FOLDER . 'npf_sql_array/');
+  define('NPF_INCLUDES_CUSTOM_EXECUTE_FOLDER', NPF_INCLUDES_FOLDER . 'npf_custom_execute/'); 
   define('NPF_INCLUDES_DESCRIPTION_SQL_ARRAY_FOLDER', NPF_INCLUDES_FOLDER . 'npf_description_sql_array/');  
   $dirList = dirList(NPF_DEFINITIONS_FOLDER);
   foreach ($dirList as $file) {

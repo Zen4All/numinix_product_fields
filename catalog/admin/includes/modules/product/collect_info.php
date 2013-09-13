@@ -44,6 +44,7 @@ if (!defined('IS_ADMIN_FLAG')) {
     // NUMINIX PRODUCT FIELDS
     $dirList = dirList(NPF_INCLUDES_SQL_FOLDER);
     $npf_fields = "";
+    $npf_tables = "";
     foreach ($dirList as $file) {
       include(NPF_INCLUDES_SQL_FOLDER . $file);  
     }
@@ -51,7 +52,7 @@ if (!defined('IS_ADMIN_FLAG')) {
     $pInfo = new objectInfo($parameters);
 
     if (isset($_GET['pID']) && empty($_POST)) {
-      $product = $db->Execute("select pd.products_name, pd.products_description, pd.products_url,
+      $product = $db->Execute("SELECT pd.products_name, pd.products_description, pd.products_url,
                                       p.products_id, p.products_quantity, p.products_model,
                                       p.products_image, p.products_price, p.products_virtual, p.products_weight,
                                       p.products_date_added, p.products_last_modified,
@@ -64,10 +65,10 @@ if (!defined('IS_ADMIN_FLAG')) {
                                       p.products_sort_order,
                                       p.products_discount_type, p.products_discount_type_from,
                                       p.products_price_sorter, p.master_categories_id" . $npf_fields . " 
-                              from " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_DESCRIPTION . " pd
-                              where p.products_id = '" . (int)$_GET['pID'] . "'
-                              and p.products_id = pd.products_id
-                              and pd.language_id = '" . (int)$_SESSION['languages_id'] . "'");
+                              FROM " . TABLE_PRODUCTS . " p
+                              LEFT JOIN " . TABLE_PRODUCTS_DESCRIPTION . " pd ON (p.products_id = pd.products_id)" . $npf_tables . "
+                              WHERE p.products_id = '" . (int)$_GET['pID'] . "'
+                              AND pd.language_id = '" . (int)$_SESSION['languages_id'] . "'");
 
       $pInfo->objectInfo($product->fields);
     } elseif (zen_not_null($_POST)) {
