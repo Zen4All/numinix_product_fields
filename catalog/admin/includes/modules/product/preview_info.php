@@ -3,11 +3,11 @@
 /**
 
  * @package admin
- * @copyright Copyright 2003-2011 Zen Cart Development Team
+ * @copyright Copyright 2003-2012 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
 
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: preview_info.php 18698 2011-05-04 14:50:06Z wilt $
+ * @version GIT: $Id: Author: Ian Wilson  Tue Aug 7 15:42:16 2012 +0100 Modified in v1.5.1 $
  */
 
 if (!defined('IS_ADMIN_FLAG')) {
@@ -263,7 +263,6 @@ if (!defined('IS_ADMIN_FLAG')) {
 <?php
 
     } else {
-      echo zen_draw_form($form_action, $type_admin_handler, 'cPath=' . $cPath . (isset($_GET['product_type']) ? '&product_type=' . $_GET['product_type'] : '') . (isset($_GET['pID']) ? '&pID=' . $_GET['pID'] : '') . '&action=' . $form_action . (isset($_GET['page']) ? '&page=' . $_GET['page'] : ''), 'post', 'enctype="multipart/form-data"');
 ?>
 
       <tr>
@@ -271,11 +270,12 @@ if (!defined('IS_ADMIN_FLAG')) {
         <td align="right" class="smallText">
 
 <?php
+			echo zen_draw_form($form_action, $type_admin_handler, 'cPath=' . $cPath . (isset($_GET['product_type']) ? '&product_type=' . $_GET['product_type'] : '') . (isset($_GET['pID']) ? '&pID=' . $_GET['pID'] : '') . '&action=' . $form_action . (isset($_GET['page']) ? '&page=' . $_GET['page'] : ''), 'post', 'enctype="multipart/form-data"');
 /* Re-Post all POST'ed variables */
       reset($_POST);
       while (list($key, $value) = each($_POST)) {
         if (!is_array($_POST[$key])) {
-          echo zen_draw_hidden_field($key, htmlspecialchars(stripslashes($value)));
+          echo zen_draw_hidden_field($key, htmlspecialchars(stripslashes($value), ENT_COMPAT, CHARSET, TRUE));
         }
       }
       if (!isset($_POST['products_date_added'])) {
@@ -284,10 +284,10 @@ if (!defined('IS_ADMIN_FLAG')) {
 
       $languages = zen_get_languages();
       for ($i=0, $n=sizeof($languages); $i<$n; $i++) {
-        echo zen_draw_hidden_field('products_name[' . $languages[$i]['id'] . ']', htmlspecialchars(stripslashes($products_name[$languages[$i]['id']])));
-        echo zen_draw_hidden_field('products_description[' . $languages[$i]['id'] . ']', htmlspecialchars(stripslashes($products_description[$languages[$i]['id']])));
-        echo zen_draw_hidden_field('products_description2[' . $languages[$i]['id'] . ']', htmlspecialchars(stripslashes($products_description2[$languages[$i]['id']])));      
-        echo zen_draw_hidden_field('products_url[' . $languages[$i]['id'] . ']', htmlspecialchars(stripslashes($products_url[$languages[$i]['id']])));
+        echo zen_draw_hidden_field('products_name[' . $languages[$i]['id'] . ']', htmlspecialchars(stripslashes($products_name[$languages[$i]['id']]), ENT_COMPAT, CHARSET, TRUE));
+        echo zen_draw_hidden_field('products_description[' . $languages[$i]['id'] . ']', htmlspecialchars(stripslashes($products_description[$languages[$i]['id']]), ENT_COMPAT, CHARSET, TRUE));
+        echo zen_draw_hidden_field('products_description2[' . $languages[$i]['id'] . ']', htmlspecialchars(stripslashes($products_description2[$languages[$i]['id']]), ENT_COMPAT, CHARSET, TRUE));      
+        echo zen_draw_hidden_field('products_url[' . $languages[$i]['id'] . ']', htmlspecialchars(stripslashes($products_url[$languages[$i]['id']]), ENT_COMPAT, CHARSET, TRUE));
       }
 
       echo zen_draw_hidden_field('products_image', stripslashes($products_image_name));
