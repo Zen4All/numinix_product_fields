@@ -4,7 +4,7 @@ Numinix Product Fields
 
 CURRENT VERSION:
 ================
-V1.1.0
+V1.3.0
 
 AUTHOR:
 =======
