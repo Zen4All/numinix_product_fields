@@ -19,4 +19,3 @@ define('TEXT_PRODUCTS_UPC', 'UPC: ');
 define('TEXT_PRODUCTS_ISBN', 'ISBN: ');
 define('TEXT_PRODUCTS_OUT_OF_STOCK', 'Out of Stock');
 define('TEXT_PRODUCTS_SKU', 'SKU: ');
-?>

@@ -114,6 +114,13 @@ require($template->get_template_dir('/tpl_products_next_previous.php',DIR_WS_TEM
 <?php } ?>
 <!-- eof Product description 2 -->
 
+<!-- bof Care Instructions  -->
+<?php if ($care_instructions != '') { ?>
+<div id="careInstructions" class="productGeneral biggerText"><?php echo stripslashes($care_instructions); ?></div>
+<br class="clearBoth" />
+<?php } ?>
+<!-- eof Care Instructions -->
+
 <?php if (!$flag_show_product_info_out_of_stock) { ?>
 <!--bof Add to Cart Box -->
 <?php

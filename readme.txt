@@ -8,7 +8,7 @@ V1.3.0
 
 AUTHOR:
 =======
-NUMINIX TECHNOLOGY WEBMASTER@NUMINIX.COM HTTP://WWW.NUMINIX.COM $
+NUMINIX WEB DEVELOPMENT LTD WEBMASTER@NUMINIX.COM HTTP://WWW.NUMINIX.COM
 
 DESCRIPTION:
 ============
@@ -17,12 +17,18 @@ Adds additional product fields used by Numinix modules.
 MODIFIED FILES:
 ===============
 admin/includes/modules/update_product.php
+admin/includes/modules/document_general/collect_info.php
+admin/includes/modules/document_general/preview_info.php
+admin/includes/modules/document_product/collect_info.php
+admin/includes/modules/document_product/preview_info.php
 admin/includes/modules/product/collect_info.php
 admin/includes/modules/product/preview_info.php
 
 
 NEW FILES:
 ==========
+admin/includes/functions/extra_functions/npf_fields_functions.php
+admin/includes/functions/extra_functions/npf_functions.php
 admin/includes/languages/english/extra_definitions/npf_defines.php
 admin/includes/languages/english/npf_definitions/*.*
 admin/includes/npf_includes/*.*

@@ -17,9 +17,11 @@
   if (SHOW_PRODUCT_INFO_UPC == 1 || SHOW_PRODUCT_INFO_ISBN == 1) $npf_attributes .= ', p.products_upc, p.products_isbn';
   if (SHOW_PRODUCT_INFO_OUT_OF_STOCK == 1) $npf_attributes .= ', p.out_of_stock';
   if (SHOW_PRODUCT_INFO_SKU == 1) $npf_attributes .= ', p.products_sku'; 
+  if (SHOW_PRODUCT_INFO_CARE_INSTRUCTIONS == 1) $npf_attributes .= ', pd.care_instructions';
+  if (SHOW_PRODUCT_INFO_DESCRIPTION2 == 1) $npf_attributes .= ', pd.products_description2';
   
   // build query
-  $products_query = "SELECT p.products_weight, pd.products_description2" . $npf_attributes . " 
+  $products_query = "SELECT p.products_weight" . $npf_attributes . " 
                      FROM " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_DESCRIPTION . " pd
                      WHERE p.products_id = " . (int)$_GET['products_id'] . " 
                      AND p.products_id = pd.products_id 
@@ -36,6 +38,7 @@
   $products_dim_type = strtolower($products->fields['products_dim_type']);
   $products_weight_type = strtolower($products->fields['products_weight_type']);
   $products_description2 = $products->fields['products_description2'];
+  $care_instructions = $products->fields['care_instructions'];
   $products_condition = $products->fields['products_condition'];
   $products_upc = $products->fields['products_upc'];
   $products_isbn = $products->fields['products_isbn'];

@@ -76,6 +76,7 @@ if (!defined('IS_ADMIN_FLAG')) {
       $products_name = $_POST['products_name'];
       $products_description = $_POST['products_description'];
       $products_description2 = $_POST['products_description2'];
+      $care_instructions = $_POST['care_instructions'];
       $products_url = $_POST['products_url'];
     }
 
