@@ -16,22 +16,22 @@ Adds additional product fields used by Numinix modules.
 
 MODIFIED FILES:
 ===============
-admin/includes/modules/update_product.php
-admin/includes/modules/document_general/collect_info.php
-admin/includes/modules/document_general/preview_info.php
-admin/includes/modules/document_product/collect_info.php
-admin/includes/modules/document_product/preview_info.php
-admin/includes/modules/product/collect_info.php
-admin/includes/modules/product/preview_info.php
+YOUR_ADMIN/includes/modules/update_product.php
+YOUR_ADMIN/includes/modules/document_general/collect_info.php
+YOUR_ADMIN/includes/modules/document_general/preview_info.php
+YOUR_ADMIN/includes/modules/document_product/collect_info.php
+YOUR_ADMIN/includes/modules/document_product/preview_info.php
+YOUR_ADMIN/includes/modules/product/collect_info.php
+YOUR_ADMIN/includes/modules/product/preview_info.php
 
 
 NEW FILES:
 ==========
-admin/includes/functions/extra_functions/npf_fields_functions.php
-admin/includes/functions/extra_functions/npf_functions.php
-admin/includes/languages/english/extra_definitions/npf_defines.php
-admin/includes/languages/english/npf_definitions/*.*
-admin/includes/npf_includes/*.*
+YOUR_ADMIN/includes/functions/extra_functions/npf_fields_functions.php
+YOUR_ADMIN/includes/functions/extra_functions/npf_functions.php
+YOUR_ADMIN/includes/languages/english/extra_definitions/npf_defines.php
+YOUR_ADMIN/includes/languages/english/npf_definitions/*.*
+YOUR_ADMIN/includes/npf_includes/*.*
 module_version/*.*
 
 
@@ -43,7 +43,7 @@ WARNING:
 - ALL MODIFICATIONS ARE CLEARLY MARKED WITH STATEMENTS;
 - TO AVOID OVERWRITING ANY OTHER MODIFICATIONS BY OTHER SCRIPTS, COMPARE THE FILES WITH WINMERGE;
 - ALSO CONTAINS UPC/ISBN ATTRIBUTES;
-- OVERWRITES EPIER MODIFICATIONS (EXCEPT admin/includes/languages/english/product.php -> delete 'epier modification');
+- OVERWRITES EPIER MODIFICATIONS (EXCEPT YOUR_ADMIN/includes/languages/english/product.php -> delete 'epier modification');
 
 INSTALL:
 ========
@@ -57,7 +57,7 @@ UNINSTALL:
 ==========
 1. RUN UNINSTALL.SQL FILE;
 2. RESTORE CORE FILES WITH ZC DEFAULTS;
-3. DELETE THE OPTIONAL FIELD FILES IN /admin/includes/npf_includes/
+3. DELETE THE OPTIONAL FIELD FILES IN /YOUR_ADMIN/includes/npf_includes/
 
 USAGE:
 ======
