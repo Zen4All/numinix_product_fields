@@ -20,6 +20,7 @@
 //
 // Numinix Product Fields
   // autoload all definition in the npf_definitions folder
+  define('TEXT_NUMINIX_PRODUCT_FIELDS','Numinix Product Fields');
   define('NPF_DEFINITIONS_FOLDER', DIR_WS_LANGUAGES . $_SESSION['language'] . '/npf_definitions/');
   define('NPF_INCLUDES_FOLDER', DIR_WS_INCLUDES . 'npf_includes/'); 
   define('NPF_INCLUDES_SQL_FOLDER', NPF_INCLUDES_FOLDER . 'npf_sql/');

@@ -37,3 +37,93 @@ function zen_get_products_video_embed($product_id, $language_id) {
 
   return $product->fields['products_video_embed'];
 }
+
+function npf_add_prebuilt_fields($field) {
+        $array_of_files = array(
+            'languages/english/npf_definitions/'.$field.'.php',
+            'npf_includes/npf_custom_execute/'.$field.'.php',
+            'npf_includes/npf_description_sql_array/'.$field.'.php',
+            'npf_includes/npf_modules/'.$field.'.php',
+            'npf_includes/npf_process/'.$field.'.php',
+            'npf_includes/npf_sql/'.$field.'.php',
+            'npf_includes/npf_sql_array/'.$field.'.php',
+            'npf_includes/npf_templates/'.$field.'.php',
+                );
+        foreach($array_of_files as $possible_file){
+            npf_copy_file($field,$possible_file);
+           // echo $possible_file.'<br/>';
+        }
+}
+
+function npf_copy_file($field,$folder){
+    if(file_exists(DIR_FS_ADMIN.'includes/npf_includes/prebuilt_fields/'.$field.'/YOUR_ADMIN/includes/'.$folder)){
+        //echo '!'.$folder.'<br/>';
+    $contents = file_get_contents(DIR_FS_ADMIN.'includes/npf_includes/prebuilt_fields/'.$field.'/YOUR_ADMIN/includes/'.$folder);
+    file_put_contents(DIR_FS_ADMIN.'includes/'.$folder, $contents);
+    }
+}
+function npf_sql_patch($string){
+   global $db;
+   $string = str_replace("`", "", $string);
+   $string = str_replace(" products ", " ".DB_PREFIX."products ", $string);
+   $string = str_replace(" product_type_layout ", " ".DB_PREFIX."product_type_layout ", $string);
+   $db->Execute($string);
+}
+
+ if (!function_exists('npf_field_value')) {
+    function npf_field_value($id, $field){
+        global $db;
+        $product = $db->Execute("SELECT * FROM ".TABLE_PRODUCTS." WHERE products_id=".(int)$id." LIMIT 1");
+            $value = $product->fields[$field];
+            return $value;
+    }
+ }
+ 
+ function add_custom_field($field_name,$type,$length = '300'){
+     global $db;
+     $field = str_replace(" ", "_", strtolower($field_name));
+     $nice_field_name = ucwords(strtolower(str_replace("_", " ", $field)));
+     if(nmx_check_field(TABLE_PRODUCTS,$field) == true){
+         $messageStack->add('ERROR!! Product field '.$field.' already exists', 'caution');
+         return;
+     }
+     $lang_defines = strtoupper($field);
+     switch($type){
+         case "checkbox":
+             $string_input_field = "zen_draw_checkbox_field('".$field."', 1, (\$pInfo->".$field.") ? true : false)";
+             $sql_type = "tinyint(1) NOT NULL default 0";
+             break;
+         case "text":
+         default:
+             $sql_type = "varchar(".(int)$length.") NULL default NULL";
+             $string_input_field = "zen_draw_input_field('".$field."',(\$pInfo->".$field."),zen_set_field_length(TABLE_PRODUCTS, '".$field."'))";
+             break;
+     }
+     //files
+        $string_npf_lang_file = "<?php
+                           define('TEXT_".$lang_defines."', '".$nice_field_name.": ');
+                           // eof";
+        file_put_contents(DIR_FS_ADMIN.'includes/languages/english/npf_definitions/'.$field.'.php', $string_npf_lang_file);
+        $string_npf_sql_file = "<?php
+                \$parameters['".$field."'] = '';
+                \$npf_fields .= ', p.".$field."'; 
+                // eof";
+        file_put_contents(DIR_FS_ADMIN.'includes/npf_includes/npf_sql/'.$field.'.php', $string_npf_sql_file);
+        $string_npf_sql_array_file = "<?php 
+                \$sql_data_array['".$field."'] = zen_db_prepare_input(\$_POST['".$field."']);";
+        file_put_contents(DIR_FS_ADMIN.'includes/npf_includes/npf_sql_array/'.$field.'.php', $string_npf_sql_array_file);
+        $string_npf_templates_file = "          <tr>
+               <td colspan=\"2\"><?php echo zen_draw_separator('pixel_trans.gif', '1', '10'); ?></td>
+             </tr>          
+             <tr bgcolor=\"#DDEACC\">
+               <td class=\"main\"><?php echo TEXT_".$lang_defines."; ?></td>
+               <td class=\"main\"><?php echo zen_draw_separator('pixel_trans.gif', '24', '15') . '&nbsp;' . ".$string_input_field."; ?></td>
+             </tr>
+             <tr>
+               <td colspan=\"2\"><?php echo zen_draw_separator('pixel_trans.gif', '1', '10'); ?></td>
+             </tr>";
+        file_put_contents(DIR_FS_ADMIN.'includes/npf_includes/npf_templates/'.$field.'.php', $string_npf_templates_file);
+     //add the field to the DB
+     $db->Execute("ALTER TABLE `".DB_PREFIX."products` ADD `".$field."` ".$sql_type.";");
+     $messageStack->add($nice_field_name." added", 'success');
+ }

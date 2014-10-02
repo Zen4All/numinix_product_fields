@@ -1,10 +1,10 @@
 <?php
 /**
  * @package admin
- * @copyright Copyright 2003-2011 Zen Cart Development Team
+ * @copyright Copyright 2003-2013 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: update_product.php 18695 2011-05-04 05:24:19Z drbyte $
+ * @version GIT: $Id: Author: DrByte  Tue Feb 12 10:13:44 2013 -0500 Modified in v1.5.3 $
  */
   if (!defined('IS_ADMIN_FLAG')) {
     die('Illegal Access');
@@ -226,3 +226,4 @@ if ($_POST['image_delete'] == 1) {
     $messageStack->add_session(ERROR_NO_DATA_TO_SAVE, 'error');
     zen_redirect(zen_href_link(FILENAME_CATEGORIES, 'cPath=' . $cPath . '&pID=' . $products_id . (isset($_GET['page']) ? '&page=' . $_GET['page'] : '') . (isset($_POST['search']) ? '&search=' . $_POST['search'] : '') ));
   }
+  
