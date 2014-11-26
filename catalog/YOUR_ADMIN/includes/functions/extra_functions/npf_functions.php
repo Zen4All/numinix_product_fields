@@ -12,6 +12,7 @@ function dirList ($directory) {
     if ($file != '.' && $file != '..')
       $results[] = $file;
   }
+  asort($results);
   // tidy up: close the handler
   closedir($handler);
   // done!
