@@ -27,3 +27,11 @@ DELETE FROM product_type_layout WHERE configuration_key = 'SHOW_PRODUCT_INFO_DIA
 DELETE FROM product_type_layout WHERE configuration_key = 'SHOW_PRODUCT_INFO_CONVERSIONS'; 
 DELETE FROM product_type_layout WHERE configuration_key = 'SHOW_PRODUCT_INFO_SMALLER_UNITS'; 
 DELETE FROM product_type_layout WHERE configuration_key = 'SHOW_PRODUCT_INFO_ACTUAL_WEIGHT';   
+
+SET @configuration_group_id=0;
+SELECT @configuration_group_id:=configuration_group_id
+FROM configuration
+WHERE configuration_key= 'NUMINIX_PRODUCT_FIELDS_VERSION'
+LIMIT 1;
+DELETE FROM configuration WHERE configuration_group_id = @configuration_group_id AND configuration_group_id <> 0;
+DELETE FROM configuration_group WHERE configuration_group_id = @configuration_group_id AND configuration_group_id <> 0;
