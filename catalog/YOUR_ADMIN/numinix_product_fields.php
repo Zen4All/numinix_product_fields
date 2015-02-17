@@ -143,7 +143,7 @@ sort($prebuilt_fields);
                             $pull_down_array[] = array( 'id' => 'checkbox',
                                                         'text' => 'Checkbox');
                             echo " Type:".zen_draw_pull_down_menu('add_custom_npf_field_type',$pull_down_array);
-                            //echo zen_draw_input_field('add_custom_npf_field_length','300');
+                            echo " Field Length (for type:text):".zen_draw_input_field('add_custom_npf_field_length','300');
                             echo "  ".zen_draw_input_field('submit', 'Add Field', '', false, 'submit');
                             echo '</form><br/>';
                       ?>

@@ -81,7 +81,7 @@ function npf_sql_patch($string){
  }
  
  function add_custom_field($field_name,$type,$length = '300'){
-     global $db;
+     global $db, $messageStack;
      $field = str_replace(" ", "_", strtolower($field_name));
      $nice_field_name = ucwords(strtolower(str_replace("_", " ", $field)));
      if(nmx_check_field(TABLE_PRODUCTS,$field) == true){
