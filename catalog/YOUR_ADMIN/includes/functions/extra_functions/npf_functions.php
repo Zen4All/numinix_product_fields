@@ -84,10 +84,12 @@ function npf_sql_patch($string){
      global $db;
      $field = str_replace(" ", "_", strtolower($field_name));
      $nice_field_name = ucwords(strtolower(str_replace("_", " ", $field)));
-     if(nmx_check_field(TABLE_PRODUCTS,$field) == true){
-         $messageStack->add('ERROR!! Product field '.$field.' already exists', 'caution');
+     global $sniffer;
+    if ($sniffer->field_exists(TABLE_SOMETHING, $field)){
+        $messageStack->add('ERROR!! Product field '.$field.' already exists', 'caution');
          return;
-     }
+    }
+    
      $lang_defines = strtoupper($field);
      switch($type){
          case "checkbox":

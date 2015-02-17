@@ -28,9 +28,9 @@ if ($zc150) { // continue Zen Cart 1.5.0
   }
 }
 
-if(nmx_check_field(TABLE_PRODUCTS,'products_condition') == false){
-$db->Execute("ALTER TABLE ".TABLE_PRODUCTS." ADD products_condition varchar(32) NULL default NULL;");
-}
+global $sniffer;
+if (!$sniffer->field_exists(TABLE_PRODUCTS, 'products_condition'))  $db->Execute("ALTER TABLE ".TABLE_PRODUCTS." ADD products_condition varchar(32) NULL default NULL;");
+
 $condition_query = $db->Execute("SELECT configuration_key FROM ".TABLE_PRODUCT_TYPE_LAYOUT." WHERE configuration_key='SHOW_PRODUCT_INFO_CONDITION'");
         if($condition_query->Recordcount() == 0){
             $db->Execute("INSERT INTO ".TABLE_PRODUCT_TYPE_LAYOUT." (configuration_id, configuration_title, configuration_key, configuration_value, configuration_description, product_type_id, sort_order, last_modified, date_added, use_function, set_function) VALUES 
