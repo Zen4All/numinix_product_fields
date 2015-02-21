@@ -13,6 +13,7 @@ $add_custom_npf_field = $_POST['add_custom_npf_field'];
 $add_custom_npf_field_name = $_POST['add_custom_npf_field_name'];
 $add_custom_npf_field_type = $_POST['add_custom_npf_field_type'];
 $add_custom_npf_field_length = $_POST['add_custom_npf_field_length'];
+$file_posted = basename($_FILES["file_download"]);
 
 if($add_npf_field != ''){
     $field = $add_npf_field;
@@ -27,8 +28,9 @@ if($add_npf_field != ''){
     $messageStack->add(ucwords(strtolower(str_replace("_", " ", $field)))." added", 'success');
 }
 if($add_custom_npf_field == "Y"){
-    add_custom_field($add_custom_npf_field_name, $add_custom_npf_field_type, $add_custom_npf_field_length);
+   add_custom_field($add_custom_npf_field_name, $add_custom_npf_field_type, $add_custom_npf_field_length);
 }
+
 
 
       $current_product_fields = array();
@@ -36,6 +38,13 @@ if($add_custom_npf_field == "Y"){
       $columnName = strtoupper($columnName);
       //loop to traverse tableFields result set
       foreach($tableFields as $key=>$value) 
+      {    
+          $current_product_fields[] = strtolower($key);
+      }
+      $pdtableFields = $db->metaColumns(TABLE_PRODUCTS_DESCRIPTION);
+      $pdcolumnName = strtoupper($pdcolumnName);
+      //loop to traverse tableFields result set
+      foreach($pdtableFields as $key=>$value) 
       {    
           $current_product_fields[] = strtolower($key);
       }
@@ -142,6 +151,8 @@ sort($prebuilt_fields);
                                                         'text' => 'Text');
                             $pull_down_array[] = array( 'id' => 'checkbox',
                                                         'text' => 'Checkbox');
+                            $pull_down_array[] = array( 'id' => 'file',
+                                                        'text' => 'File');
                             echo " Type:".zen_draw_pull_down_menu('add_custom_npf_field_type',$pull_down_array);
                             //echo zen_draw_input_field('add_custom_npf_field_length','300');
                             echo "  ".zen_draw_input_field('submit', 'Add Field', '', false, 'submit');
